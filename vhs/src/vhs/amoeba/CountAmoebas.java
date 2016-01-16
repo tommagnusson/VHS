@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class CountAmoebas{
 
    public static void main(String[] args){
-      // Just following the directions...
+      // "The main method only calls to methods"
       printResults(getNumberOfAmoebas(getSurfaceArea(getRadius()), getNonOverlapSpace(getAmoebaSpace(), getOverlapFactor())));
    }
 
@@ -41,10 +41,8 @@ public class CountAmoebas{
       return reader.nextDouble();
    }
 
-   // Because a head of a pin is usually spherical
    private static double getSurfaceArea(double radius) {
-      // 4(PI)(r^2)
-      return 4 * Math.PI * radius * radius;
+      return Math.PI * radius * radius;
    }
 
    private static double getNonOverlapSpace(double amoebaSpace, double overlapFactor) {
