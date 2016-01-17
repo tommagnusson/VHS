@@ -1,4 +1,3 @@
-package vhs.amoeba;
 
 /*Count the Amoebas 
 Count the number of amoebas that can dance on the head of a pin.
