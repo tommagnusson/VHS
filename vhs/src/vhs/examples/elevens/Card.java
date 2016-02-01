@@ -1,53 +1,96 @@
 package vhs.examples.elevens;
 
+import vhs.examples.elevens.Card.Suit.Color;
+
 public class Card implements Comparable<Card> {
 
 	// Instance variables
+	// "Instance fields should never be public" (Item 14)
 	
 	private Rank rank;
 	private Suit suit;
-	private Color color;
-	private int pointsValue;
+	private int value;
 	
 	// enums are better than String, because the values are unambiguous
 	
-	public static enum Rank {
+	public enum Rank {
 		ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING;
+		
+		@Override
+		public String toString() {
+			return super.toString().toLowerCase();
+		}
 	}
 	
-	public static enum Suit {
+	/**
+	 * Represents a suit associated with a playing card.
+	 * Orders the suits in the following way (for comparisons):
+	 * <ol>
+	 * 		<li>Clubs</li>
+	 * 		<li>Diamonds</li>
+	 * 		<li>Hearts</li>
+	 * 		<li>Spades</li>
+	 * </ol>
+	 * @author Tommy
+	 *
+	 */
+	public enum Suit {
 		CLUBS, DIAMONDS, HEARTS, SPADES;
+		
+		private Color color;
+		
+		/**
+		 * Represents a color associated with a suit in a playing card.
+		 * Either {@code Black} or {@code Red}.
+		 * @author Tommy
+		 *
+		 */
+		public enum Color {
+			BLACK, RED;
+		} 
+		
+		/**
+		 * A Color is automatically associated with each suit.
+		 */
+		static {
+			CLUBS.color = Color.BLACK;
+			SPADES.color = Color.BLACK;
+			
+			DIAMONDS.color = Color.RED;
+			HEARTS.color = Color.RED;
+		}
+		
+		// Accesses the Color for a given suit.
+		public Color getColor() {
+			return color;
+		}
+		
+		// It is implicit that a particular suit has
+		// a certain color, therefore is not inlcuded
+		// on this enum's toString()
+		@Override
+		public String toString() {
+			return super.toString().toLowerCase();
+		}
 	}
 	
-	public static enum Color {
-		BLACK, RED;
-	}
+	// Constants
+	
+	public static final int NUM_UNIQUE_CARDS = Rank.values().length * Suit.values().length;
 	
 	// Constructor
 
 	public Card(Rank rank, Suit suit) {
 		this.rank = rank;
-		this.suit = suit; 
-		
-		switch(suit) {
-		case CLUBS:
-		case SPADES:
-			color = Color.BLACK;
-			break;
-		default:
-			color = Color.RED;
-			break;
-		}
+		this.suit = suit;
 		
 		// Each card has a unique value, 0 - 51
-		pointsValue = (suit.ordinal() * Rank.values().length) + rank.ordinal();
+		value = (suit.ordinal() * Rank.values().length) + rank.ordinal();
 	}
 	
 	public Card(int pointsValue) {
-		int rank = pointsValue % Rank.values().length;
-		int suit = pointsValue / Rank.values().length;
-		this.rank = Rank.values()[rank];
-		this.suit = Suit.values()[suit];
+		// Awkward way of getting around weird compiler error, call to constructor must be first statement
+		this(Rank.values()[pointsValue % Rank.values().length], Suit.values()[pointsValue / Rank.values().length]);
 	}
 	
 	// Accessors
@@ -61,26 +104,24 @@ public class Card implements Comparable<Card> {
 	}
 	
 	public Color getColor() {
-		return color;
+		return suit.getColor();
 	}
 
 	// Equality, useful for comparing cards, often used for card games with bidding/high cards
 	
-	@Override
-	public int compareTo(Card c) {
-		return pointsValue - c.pointsValue;
+	public int compareRankTo(Card c) {
+		return getRank().ordinal() - c.getRank().ordinal();
 	}
 	
-	public boolean equals(Card c) {
-		if (pointsValue != c.pointsValue)
-			return false;
-		if (rank != c.rank)
-			return false;
-		if (suit != c.suit)
-			return false;
-		return true;
+	public int compareSuitTo(Card c) {
+		return getSuit().ordinal() - c.getSuit().ordinal();
 	}
-
+	
+	@Override
+	public int compareTo(Card c) {
+		return value - c.value;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -93,11 +134,31 @@ public class Card implements Comparable<Card> {
 		return equals(other);
 	}
 	
+	// Convenience equality
+	
+	public boolean equals(Card c) {
+		if (value != c.value)
+			return false;
+		if (rank != c.rank)
+			return false;
+		if (suit != c.suit)
+			return false;
+		return true;
+	}
+	
+	public boolean rankEquals(Card c) {
+		return getRank() == c.getRank();
+	}
+	
+	public boolean suitEquals(Card c) {
+		return getSuit() == c.getSuit();
+	}
+	
 	// String
 	
 	@Override
 	public String toString() {
-		return rank + " of " + suit;
+		return getRank() + " of " + getSuit();
 	}
 	
 }

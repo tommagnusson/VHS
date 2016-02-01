@@ -1,23 +1,19 @@
 package vhs.examples.elevens;
 
-import vhs.examples.elevens.Card.Rank;
-import vhs.examples.elevens.Card.Suit;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CardTester {
 
 	public static void main(String[] args) {
 		
-		Card aceOfSpades = new Card(Rank.ACE, Suit.SPADES);
-		Card anotherAceOfSpades = new Card(Rank.ACE, Suit.SPADES);
-		Card sevenOfClubs = new Card(Rank.SEVEN, Suit.CLUBS);
-		
-		System.out.println(aceOfSpades.compareTo(anotherAceOfSpades));
-		System.out.println(aceOfSpades.equals(anotherAceOfSpades));
-		System.out.println(sevenOfClubs.compareTo(aceOfSpades));
-		System.out.println(sevenOfClubs.equals(anotherAceOfSpades));
-		System.out.println(sevenOfClubs);
-		System.out.println(new Card(0));
-		
+		Deck ordered = Deck.newOrderedDeck();
+		while(ordered.getSize() > 0) {
+			ordered.draw();
+		}
+		System.out.println(ordered.getSize());
+		Deck anotherOrdered = Deck.newOrderedDeck();
+		System.out.println(anotherOrdered.getSize());
 	}
 	
 }
