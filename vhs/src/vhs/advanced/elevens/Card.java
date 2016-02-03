@@ -1,6 +1,6 @@
-package vhs.examples.elevens;
+package vhs.advanced.elevens;
 
-import vhs.examples.elevens.Card.Suit.Color;
+import vhs.advanced.elevens.Card.Suit.Color;
 
 public class Card implements Comparable<Card> {
 

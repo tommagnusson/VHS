@@ -1,4 +1,4 @@
-package vhs.examples.elevens;
+package vhs.advanced.elevens;
 
 public class War {
 

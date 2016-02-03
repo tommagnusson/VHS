@@ -18,6 +18,5 @@ public class CardTester {
 		Card c3 = new Card("ten", "spades", 10);
 		System.out.println("Does " + c + " match " + c3 + "?");
 		System.out.println(c.matches(c3));
-		
 	}
 }
