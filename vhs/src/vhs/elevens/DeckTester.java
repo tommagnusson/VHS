@@ -1,14 +1,12 @@
 package vhs.elevens;
 
-import java.util.Arrays;
-
 /**
- * This is a class that tests the Deck class.
+ * This is a class that tests the ArrayDeck class.
  */
 public class DeckTester {
 
 	/**
-	 * The main method in this class checks the Deck operations for consistency.
+	 * The main method in this class checks the ArrayDeck operations for consistency.
 	 *
 	 * @param args
 	 *            is not used.

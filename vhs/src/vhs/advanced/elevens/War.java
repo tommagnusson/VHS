@@ -1,17 +1,20 @@
 package vhs.advanced.elevens;
 
+import java.util.Iterator;
+
 public class War {
 
 	public static void main(String[] args) {
 		boolean canAdvance = true;
 		int sets = 0;
 		while (canAdvance) {
-			Deck deck = Deck.newShuffledDeck();
+			Deck deck = ArrayDeck.newShuffledDeck();
 			int wins = 0;
 			int losses = 0;
-			while (deck.getSize() > 0) {
-				Card playerCard = deck.draw();
-				Card computerCard = deck.draw();
+			Iterator<Card> it = deck.iterator();
+			while (it.hasNext()) {
+				Card playerCard = it.next();
+				Card computerCard = it.next();
 				if (playerCard.compareRankTo(computerCard) >= 0) {
 					System.out.println("Your " + playerCard + " beat my " + computerCard);
 					System.out.println("Battle won!");
