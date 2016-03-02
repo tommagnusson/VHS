@@ -1,10 +1,11 @@
 package vhs.elevens;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
 /**
- * The ArrayDeck class represents a shuffled deck of cards.
+ * The Deck class represents a shuffled deck of cards.
  * It provides several operations including
  *      initialize, shuffle, deal, and check if empty.
  */
@@ -24,7 +25,7 @@ public class Deck {
 
 
 	/**
-	 * Creates a new <code>ArrayDeck</code> instance.<BR>
+	 * Creates a new <code>Deck</code> instance.<BR>
 	 * It pairs each element of ranks with each element of suits,
 	 * and produces one of the corresponding card.
 	 * @param ranks is an array containing all of the card ranks.
@@ -32,14 +33,14 @@ public class Deck {
 	 * @param values is an array containing all of the card point values.
 	 */
 	public Deck(String[] ranks, String[] suits, int[] values) {
-		int numOfCards = ranks.length * suits.length;
-		cards = new ArrayList<Card>(numOfCards);
-		for (int suit = 0; suit < suits.length; suit++) {
-			for (int rank = 0; rank < ranks.length; rank++) {
-				cards.add(new Card(ranks[rank], suits[suit], values[rank]));
+		cards = new ArrayList<Card>();
+		for (int j = 0; j < ranks.length; j++) {
+			for (String suitString : suits) {
+				cards.add(new Card(ranks[j], suitString, values[j]));
 			}
 		}
-		size = numOfCards;
+		size = cards.size();
+		shuffle();
 	}
 
 
@@ -64,7 +65,16 @@ public class Deck {
 	 * and reset the size to represent the entire deck.
 	 */
 	public void shuffle() {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 4 *** */
+		
+		// Collections.shuffle(cards); // hmmmmmmm....
+		
+		for (int i = cards.size() - 1; i > 0; i--) {
+			int pos = (int) (Math.random() * (i + 1)); // [0, i]
+			Card temp = cards.get(pos);
+			cards.set(pos, cards.get(i));
+			cards.set(i, temp);
+		}
+		size = cards.size(); // reset so all cards can be dealt again
 	}
 
 	/**
@@ -73,8 +83,12 @@ public class Deck {
 	 *         previously dealt.
 	 */
 	public Card deal() {
+		if (isEmpty()) {
+			return null;
+		}
 		size--;
-		return cards.get(size);
+		Card c = cards.get(size);
+		return c;
 	}
 
 	/**
